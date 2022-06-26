@@ -11,14 +11,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
+using chessAPI.Controllers;
+using Microsoft.EntityFrameworkCore;
 
 namespace chessAPI
 {
     public class Startup
     {
+        public string ConnectionString { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ConnectionString = Configuration.GetConnectionString("DBCon");
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +31,7 @@ namespace chessAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -37,7 +43,11 @@ namespace chessAPI
                 = new DefaultContractResolver());
 
             services.AddControllers();
+
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
+
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

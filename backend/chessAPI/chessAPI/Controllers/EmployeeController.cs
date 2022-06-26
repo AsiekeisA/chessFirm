@@ -25,7 +25,7 @@ namespace chessAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @" select EmpId, EmpFirstname, EmpLastname, EmpPhone, Department from dbo.Employee";
+            string query = @" select Id, EmpFirstname, EmpLastname, EmpPhone from dbo.Employee";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DBCon");
@@ -45,12 +45,36 @@ namespace chessAPI.Controllers
             return new JsonResult(table);
         }
 
+        [HttpGet("{id}")]
+        public JsonResult GetList(int id)
+        {
+            string query = @"  select DepName from Department where Id in (select DepId from DepWorker where EmpId = @id)";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("DBCon");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myComa = new SqlCommand(query, myCon))
+                {
+                    myComa.Parameters.AddWithValue("@Id", id);
+                    myReader = myComa.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
         [HttpPost]
         public JsonResult Post(Employee emp)
         {
             string query = @" insert into dbo.Employee
-                            (EmpFirstname, EmpLastname, EmpPhone, Department)
-                            values (@EmpFirstname, @EmpLastname, @EmpPhone, @Department)";
+                            (EmpFirstname, EmpLastname, EmpPhone)
+                            values (@EmpFirstname, @EmpLastname, @EmpPhone)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DBCon");
@@ -63,7 +87,7 @@ namespace chessAPI.Controllers
                     myComa.Parameters.AddWithValue("@EmpFirstname", emp.EmpFirstname);
                     myComa.Parameters.AddWithValue("@EmpLastname", emp.EmpLastname);
                     myComa.Parameters.AddWithValue("@EmpPhone", emp.EmpPhone);
-                    myComa.Parameters.AddWithValue("@Department", emp.Department);
+                    //myComa.Parameters.AddWithValue("@Department", emp.Department);
                     myReader = myComa.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -81,8 +105,7 @@ namespace chessAPI.Controllers
                             EmpFirstname = @EmpFirstname, 
                             EmpLastname = @EmpLastname, 
                             EmpPhone = @EmpPhone, 
-                            Department = @Department 
-                            where EmpId=@EmpId";
+                            where Id=@Id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DBCon");
@@ -92,11 +115,11 @@ namespace chessAPI.Controllers
                 myCon.Open();
                 using (SqlCommand myComa = new SqlCommand(query, myCon))
                 {
-                    myComa.Parameters.AddWithValue("@EmpId", emp.EmpId);
+                    myComa.Parameters.AddWithValue("@Id", emp.Id);
                     myComa.Parameters.AddWithValue("@EmpFirstname", emp.EmpFirstname);
                     myComa.Parameters.AddWithValue("@EmpLastname", emp.EmpLastname);
                     myComa.Parameters.AddWithValue("@EmpPhone", emp.EmpPhone);
-                    myComa.Parameters.AddWithValue("@Department", emp.Department);
+                    //myComa.Parameters.AddWithValue("@Department", emp.Department);
                     myReader = myComa.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -110,7 +133,7 @@ namespace chessAPI.Controllers
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
-            string query = @" delete from dbo.Employee where EmpId=@EmpId";
+            string query = @" delete from dbo.Employee where Id=@Id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DBCon");
@@ -120,7 +143,7 @@ namespace chessAPI.Controllers
                 myCon.Open();
                 using (SqlCommand myComa = new SqlCommand(query, myCon))
                 {
-                    myComa.Parameters.AddWithValue("@EmpId", id);
+                    myComa.Parameters.AddWithValue("@Id", id);
                     myReader = myComa.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();

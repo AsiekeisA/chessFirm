@@ -7,10 +7,12 @@ namespace chessAPI.Models
 {
     public class Employee
     {
-        public int EmpId { get; set; }
+        public int Id { get; set; }
         public string EmpFirstname { get; set; }
         public string EmpLastname { get; set; }
         public string EmpPhone { get; set; }
-        public string Department { get; set; }
+        //public string Department { get; set; }
+
+        public List<DepWorker> DepWorkers{ get; set; }
     }
 }
