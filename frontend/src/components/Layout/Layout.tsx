@@ -1,6 +1,6 @@
 import { ReactElement, JSXElementConstructor, ReactFragment, ReactPortal } from "react";
 
-function Layout(props: { menu: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }) {
+function Layout(props: { menu: ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal; content: ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal; }) {
     return (
         <div>
             <div>{props.menu}</div>

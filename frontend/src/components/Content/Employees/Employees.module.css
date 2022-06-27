@@ -1,0 +1,12 @@
+.emps {
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(150, 150, 150);
+    font-size: 15px;
+    display: flexbox;
+    padding: 5px 5px 5px 5px;
+}
+/* .button{
+    font-size: 10px;
+    justify-content: end;
+} */
