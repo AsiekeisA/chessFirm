@@ -94,8 +94,8 @@ namespace chessAPI.Controllers
             return new JsonResult("Add");
         }
 
-        [HttpPut]
-        public JsonResult Put(Department dep)
+        [HttpPut("{id}")]
+        public JsonResult Put(int id, Department dep)
         {
             string query = @" update dbo.Department set DepName =(@DepName) where Id=@Id";
 
@@ -107,7 +107,7 @@ namespace chessAPI.Controllers
                 myCon.Open();
                 using (SqlCommand myComa = new SqlCommand(query, myCon))
                 {
-                    myComa.Parameters.AddWithValue("@Id", dep.Id);
+                    myComa.Parameters.AddWithValue("@Id", id);
                     myComa.Parameters.AddWithValue("@DepName", dep.DepName);
                     myReader = myComa.ExecuteReader();
                     table.Load(myReader);

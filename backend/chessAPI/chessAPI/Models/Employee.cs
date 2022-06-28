@@ -11,7 +11,6 @@ namespace chessAPI.Models
         public string EmpFirstname { get; set; }
         public string EmpLastname { get; set; }
         public string EmpPhone { get; set; }
-        //public string Department { get; set; }
 
         public List<DepWorker> DepWorkers{ get; set; }
     }

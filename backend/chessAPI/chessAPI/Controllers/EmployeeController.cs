@@ -87,7 +87,6 @@ namespace chessAPI.Controllers
                     myComa.Parameters.AddWithValue("@EmpFirstname", emp.EmpFirstname);
                     myComa.Parameters.AddWithValue("@EmpLastname", emp.EmpLastname);
                     myComa.Parameters.AddWithValue("@EmpPhone", emp.EmpPhone);
-                    //myComa.Parameters.AddWithValue("@Department", emp.Department);
                     myReader = myComa.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -95,17 +94,14 @@ namespace chessAPI.Controllers
                 }
             }
 
-            return new JsonResult("Add");
+            return new JsonResult(table);
         }
 
-        [HttpPut]
-        public JsonResult Put(Employee emp)
+        [HttpPut("{id}")]
+        public JsonResult Put(int id, Employee emp)
         {
-            string query = @" update dbo.Employee set 
-                            EmpFirstname = @EmpFirstname, 
-                            EmpLastname = @EmpLastname, 
-                            EmpPhone = @EmpPhone, 
-                            where Id=@Id";
+            string query = @" update dbo.Employee set
+                            EmpFirstname=@EmpFirstname, EmpLastname=@EmpLastname, EmpPhone=@EmpPhone where Id=@Id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DBCon");
@@ -115,11 +111,10 @@ namespace chessAPI.Controllers
                 myCon.Open();
                 using (SqlCommand myComa = new SqlCommand(query, myCon))
                 {
-                    myComa.Parameters.AddWithValue("@Id", emp.Id);
+                    myComa.Parameters.AddWithValue("@Id", id);
                     myComa.Parameters.AddWithValue("@EmpFirstname", emp.EmpFirstname);
                     myComa.Parameters.AddWithValue("@EmpLastname", emp.EmpLastname);
                     myComa.Parameters.AddWithValue("@EmpPhone", emp.EmpPhone);
-                    //myComa.Parameters.AddWithValue("@Department", emp.Department);
                     myReader = myComa.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
