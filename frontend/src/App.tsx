@@ -4,6 +4,7 @@ import Layout from './components/Layout/Layout';
 import Menu from './components/Menu/Menu';
 import Content from './components/Content/Content';
 import axios from './axios';
+import {Iworker} from "./Models/Model"
 
 // const reducer = (state:any,action:any) => {
 //   switch (action.type) {
@@ -17,14 +18,28 @@ import axios from './axios';
 // const initialState = {
 //   employees: []
 // }
+const pracownicy:Iworker[] = [
+  {
+  Id: 1,
+  EmpFirstname: 'Paweł',
+  EmpLastname: 'Wieczorek',
+  EmpPhone: '123456789'
+  },
+  {
+    Id: 2,
+    EmpFirstname: 'Dominika',
+    EmpLastname: 'Fun',
+    EmpPhone: '987654321'
+    }
+]
 
 function App() {
 
   // const [state, dispatch] = useReducer(reducer, initialState);
-  const [employees, setEmployees] = useState([{}])
+  const [employees, setEmployees] = useState<Iworker[]>([])
   const fetchBack = async () => {
     const resEmployees = await axios.get('/Employee');
-    const employ = resEmployees.data;
+    const employ:Iworker[] = resEmployees.data;
     setEmployees(employ)
   }
 
