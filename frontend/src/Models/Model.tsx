@@ -5,6 +5,12 @@ export interface Iworker {
     EmpPhone: string
     }
 
+export interface InewWorker {
+        EmpFirstname: string,
+        EmpLastname: string,
+        EmpPhone: string
+        }
+
 export interface Idepart {
     Id: number,
     DepName: string
