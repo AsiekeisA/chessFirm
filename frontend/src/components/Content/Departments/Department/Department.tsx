@@ -1,9 +1,10 @@
 import { Row, Col } from "react-bootstrap";
 import styles from "../../Employees/Employee/Employee.module.css"
-import {Idepart, Iworker, IdepWork} from "../../../../Models/Model"
+import {Idepart, Iworker, IdepWork, INdepWork} from "../../../../Models/Model"
 import axios from '../../../../axios'
 import { useState, useEffect } from "react";
 import ListEmployees from "./ListEmployees/ListEmployees";
+import AddEmployee from "./ListEmployees/AddEmployee/AddEmployee";
 
 function Department(props:{
     onEdit(department: { Id: number; DepName:string }):any;
@@ -11,22 +12,18 @@ function Department(props:{
     department:Idepart;
     depWorkers:IdepWork[];
     employees:Iworker[];
+    addDepWorker(depWorker:INdepWork):any
     dwOnDelete(Id:number):any
 }) {
 
+    let newEmpList = props.employees
     const [showList, setShowList] = useState(false);
-    // const [employeesList, setEmployeesList] = useState<IworkerList[]>([])
-    // const listing = async() =>{
-    //     const resEmployees = await axios.get('/Department/'+props.department.Id);
-    //     const employ:IworkerList[] = resEmployees.data;
-    //     setEmployeesList(employ)
-    // }
-    
     const selectDepWorker = props.depWorkers.filter(dw => dw.DepId === props.department.Id)
-
-    // useEffect(()=>{
-    //     listing();
-    //  },[]);
+    if (selectDepWorker.length>0){
+        for(var i=0; i<selectDepWorker.length; i++){
+            newEmpList = newEmpList.filter(dw=>dw.Id!=selectDepWorker[i].EmpId)
+        }
+    }
 
     const editHandler = () => {
         props.onEdit({
@@ -55,10 +52,12 @@ function Department(props:{
                 // onDelete={(Id:number) => deleteEmployee(Id)}       
             />
         ))}
-            {showList?(
-                <div className={`${styles.emp}`}>
-                    <button>dodaj pracownika</button>
-                </div>):(<></>)
+        {newEmpList.length>0 && showList?(
+            <AddEmployee
+                DepId={props.department.Id}
+                newEmpList={newEmpList}
+                onAdd={props.addDepWorker}
+            />):(<></>)
             }
         </>)
 }

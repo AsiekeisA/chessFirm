@@ -35,3 +35,8 @@ export interface IN2depWork {
     DepName: string,
     EmpId: number
 }
+export interface IN3depWork {
+    DepId: number,
+    EmpPhone: string,
+    EmpName: string
+}

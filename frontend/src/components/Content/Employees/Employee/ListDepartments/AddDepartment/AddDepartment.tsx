@@ -31,7 +31,6 @@ export default function AddDepartment(props:{
             EmpId:newDepWork.EmpId
         }
         props.onAdd(DW)
-        console.log(DW)
         setNewDepWork({
             DepName:'',
             EmpId:props.EmpId

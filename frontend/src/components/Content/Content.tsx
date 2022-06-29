@@ -35,7 +35,6 @@ export default function Content(props:{
                 <Employees
                     employees={props.employees}
                     depWorkers={props.depWorkers}
-                    setDepWorkers={props.setDepWorkers}
                     dwOnDelete={(Id:number) => deleteDepWorker(Id)}
                     setEmployees={props.setEmployees}
                     addDepWorker={addDepWorker}
@@ -48,7 +47,7 @@ export default function Content(props:{
                     depWorkers={props.depWorkers}
                     dwOnDelete={(Id:number) => deleteDepWorker(Id)}
                     setDepartments={props.setDepartments}
-                    // addDepWorker={addDepWorker}
+                    addDepWorker={addDepWorker}
                     employees={props.employees}
                 ></Departments>)
         default:

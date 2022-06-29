@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import Modal from 'react-modal';
 import styles from '../Employees/Employees.module.css';
-import {Idepart, IdepWork, Iworker} from "../../../Models/Model"
+import {Idepart, IdepWork, INdepWork, Iworker} from "../../../Models/Model"
 import { useEffect, useState } from "react";
 import axios from "../../../axios";
 import Department from "./Department/Department";
@@ -9,10 +9,11 @@ import EditDepartment from "./EditDepartment/EditDepartment";
 import NewDepartment from "./NewDepartment/NewDepartment";
 
 function Departments(props: {
+    employees:Iworker[];
     departments:Idepart[];
     depWorkers:IdepWork[];
-    employees:Iworker[];
     dwOnDelete(Id:number):any
+    addDepWorker(depWorker:INdepWork):any
     setDepartments: React.Dispatch<React.SetStateAction<Idepart[]>>}) {
     const [editDepartmentTemp, setEditDepartment] = useState<Idepart>({
             Id: 0,
@@ -85,6 +86,7 @@ function Departments(props: {
                     department={department}
                     depWorkers={props.depWorkers}
                     employees={props.employees}
+                    addDepWorker={props.addDepWorker}
                     dwOnDelete={(Id:number) => props.dwOnDelete(Id)}
                     onEdit={(department:Idepart) => editDepHandler(department)}
                     onDelete={(Id:number) => deleteDepartment(Id)}       

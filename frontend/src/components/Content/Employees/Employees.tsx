@@ -10,11 +10,10 @@ import NewEmployee from "./NewEmployee/NewEmployee";
 
 function Employees(props: {
     employees:Iworker[];
-    depWorkers:IdepWork[];
     departments:Idepart[];
+    depWorkers:IdepWork[];
     dwOnDelete(Id:number):any
     addDepWorker(depWorker:INdepWork):any
-    setDepWorkers: React.Dispatch<React.SetStateAction<IdepWork[]>>;
     setEmployees: React.Dispatch<React.SetStateAction<Iworker[]>>}) {
     const [editEmployeeTemp, setEditEmployee] = useState<Iworker>({
         Id: 0,
@@ -34,13 +33,6 @@ function Employees(props: {
         const employ = [...props.employees].filter(employees => employees.Id !== Id);
         await axios.delete('/Employee/'+ Id);
         props.setEmployees(employ);
-    }
-
-    const deleteDepWorker = async (Id:number) => {
-        console.log('usuwanie', Id);
-        const depWor = [...props.depWorkers].filter(dw => dw.Id !== Id);
-        await axios.delete('/DepWorker/'+ Id);
-        props.setDepWorkers(depWor);
     }
 
     const addEmployee = async(employee:Iworker) => {
