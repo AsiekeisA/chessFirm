@@ -83,7 +83,7 @@ function Employees(props: {
                  />
                 <button onClick={() => toggleNewModal()}>Anuluj</button>
             </Modal>
-            <button onClick={() => toggleNewModal()}>add new</button>
+            <button onClick={() => toggleNewModal()}>Nowy pracownik</button>
             {props.employees.map((employee: Iworker) => (
                 <Employee
                     key={employee.Id}

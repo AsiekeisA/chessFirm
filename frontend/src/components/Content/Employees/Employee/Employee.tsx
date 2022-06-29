@@ -18,11 +18,18 @@ function Employee(props:{
 
     let newDepList = props.departments
     const [showList, setShowList] = useState(false);
+    const [btnName, setBtnName] = useState("rozwiń")
     const selectDepWorker = props.depWorkers.filter(dw => dw.EmpId === props.employee.Id)
     if (selectDepWorker.length>0){
         for(var i=0; i<selectDepWorker.length; i++){
             newDepList = newDepList.filter(dw=>dw.Id!=selectDepWorker[i].DepId)
         }
+    }
+
+    const setList = () => {
+        showList?
+        setBtnName("rozwiń"):setBtnName("zwiń")
+        setShowList(!showList)
     }
 
     const editHandler = () => {
@@ -38,7 +45,7 @@ function Employee(props:{
         <><div className={`${styles.emp}`}>
             <div>{props.employee.EmpFirstname} {props.employee.EmpLastname}</div>
             <div className="col">{props.employee.EmpPhone}</div>
-            <button onClick={()=>{setShowList(!showList)}}>rozwin</button>
+            <button onClick={()=>{setList()}}>{btnName}</button>
             <button onClick={editHandler}>edycja</button>
             <button onClick={() => {props.onDelete(props.employee.Id)}}>usuń</button>
         </div>

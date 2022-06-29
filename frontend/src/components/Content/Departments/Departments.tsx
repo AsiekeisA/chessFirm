@@ -79,7 +79,7 @@ function Departments(props: {
                  />
                 <button onClick={() => toggleNewModal()}>Anuluj</button>
             </Modal>
-            <button onClick={() => toggleNewModal()}>add new</button>
+            <button onClick={() => toggleNewModal()}>Nowy dział</button>
             {props.departments.map((department: Idepart) => (
                 <Department
                     key={department.Id}
