@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import Modal from 'react-modal';
 import Employee from "./Employee/Employee";
 import styles from './Employees.module.css';
-import {Iworker, InewWorker} from "../../../Models/Model"
+import {Iworker, IdepWork, Idepart} from "../../../Models/Model"
 import { useEffect, useState } from "react";
 import EditEmployee from "./EditEmployee/EditEmployee";
 import axios from "../../../axios";
@@ -10,6 +10,10 @@ import NewEmployee from "./NewEmployee/NewEmployee";
 
 function Employees(props: {
     employees:Iworker[];
+    depWorkers:IdepWork[];
+    departments:Idepart[];
+    dwOnDelete(Id:number):any
+    setDepWorkers: React.Dispatch<React.SetStateAction<IdepWork[]>>;
     setEmployees: React.Dispatch<React.SetStateAction<Iworker[]>>}) {
     const [editEmployeeTemp, setEditEmployee] = useState<Iworker>({
         Id: 0,
@@ -29,6 +33,13 @@ function Employees(props: {
         const employ = [...props.employees].filter(employees => employees.Id !== Id);
         await axios.delete('/Employee/'+ Id);
         props.setEmployees(employ);
+    }
+
+    const deleteDepWorker = async (Id:number) => {
+        console.log('usuwanie', Id);
+        const depWor = [...props.depWorkers].filter(dw => dw.Id !== Id);
+        await axios.delete('/DepWorker/'+ Id);
+        props.setDepWorkers(depWor);
     }
 
     const addEmployee = async(employee:Iworker) => {
@@ -84,6 +95,10 @@ function Employees(props: {
                 <Employee
                     key={employee.Id}
                     employee={employee}
+                    departments={props.departments}
+                    depWorkers={props.depWorkers}
+                    // dwOnDelete={(Id:number) => {deleteDepWorker(Id)}}
+                    dwOnDelete={(Id:number) => props.dwOnDelete(Id)}
                     onEdit={(employee) => editEmpHandler(employee)}
                     onDelete={(Id:number) => deleteEmployee(Id)}       
                     />
