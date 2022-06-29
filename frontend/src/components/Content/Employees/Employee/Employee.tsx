@@ -1,9 +1,10 @@
 import { Row, Col } from "react-bootstrap";
 import styles from "./Employee.module.css"
-import {Iworker, IdepartList, IdepWork,Idepart} from "../../../../Models/Model"
+import {Iworker, IdepWork,Idepart, INdepWork} from "../../../../Models/Model"
 import axios from '../../../../axios'
 import ListDepartments from "./ListDepartments/ListDepartments";
 import { useEffect, useState } from "react";
+import AddDepartment from "./ListDepartments/AddDepartment/AddDepartment";
 
 function Employee(props:{
     onEdit(employee: { Id: number; EmpFirstname: string; EmpLastname: string; EmpPhone: string; }):any;
@@ -11,22 +12,18 @@ function Employee(props:{
     employee:Iworker
     departments:Idepart[];
     depWorkers:IdepWork[];
+    addDepWorker(depWorker:INdepWork):any
     dwOnDelete(Id:number):any
 }) {
 
+    let newDepList = props.departments
     const [showList, setShowList] = useState(false);
-    // const [departmentsList, setDepartmentList] = useState<IdepartList[]>([])
-    // const listing = async() =>{
-    //     const resEmployees = await axios.get('/Employee/'+props.employee.Id);
-    //     const employ:IdepartList[] = resEmployees.data;
-    //     setDepartmentList(employ)
-    // }
-
     const selectDepWorker = props.depWorkers.filter(dw => dw.EmpId === props.employee.Id)
-
-    // useEffect(()=>{
-    //     listing();
-    //  },[]);
+    if (selectDepWorker.length>0){
+        for(var i=0; i<selectDepWorker.length; i++){
+            newDepList = newDepList.filter(dw=>dw.Id!=selectDepWorker[i].DepId)
+        }
+    }
 
     const editHandler = () => {
         props.onEdit({
@@ -41,9 +38,9 @@ function Employee(props:{
         <><div className={`${styles.emp}`}>
             <div>{props.employee.EmpFirstname} {props.employee.EmpLastname}</div>
             <div className="col">{props.employee.EmpPhone}</div>
+            <button onClick={()=>{setShowList(!showList)}}>rozwin</button>
             <button onClick={editHandler}>edycja</button>
             <button onClick={() => {props.onDelete(props.employee.Id)}}>usuń</button>
-            <button onClick={()=>{setShowList(!showList)}}>rozwin</button>
         </div>
          {selectDepWorker.map((depWork: IdepWork) => (
             <ListDepartments
@@ -52,14 +49,15 @@ function Employee(props:{
                 showList={showList}
                 departments={props.departments}
                 onDelete={(Id:number) => props.dwOnDelete(Id)}
-                setShowList={setShowList}
-                // onDelete={(Id:number) => deleteEmployee(Id)}       
+                setShowList={setShowList}       
             />
             ))}
-            {showList?(
-                <div className={`${styles.emp}`}>
-                    <button>dodaj dział</button>
-                </div>):(<></>)
+            {newDepList.length>0 && showList?(
+            <AddDepartment
+                EmpId={props.employee.Id}
+                newDepList={newDepList}
+                onAdd={props.addDepWorker}
+            />):(<></>)
             }
         </>)
 }

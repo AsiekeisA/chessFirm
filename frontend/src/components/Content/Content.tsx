@@ -1,7 +1,6 @@
 import Employees from "./Employees/Employees";
 import Departments from "./Departments/Departments";
-import { ListFormat } from "typescript";
-import {Iworker, Idepart,IdepWork} from "../../Models/Model"
+import {Iworker, Idepart,IdepWork, INdepWork} from "../../Models/Model"
 import axios from '../../axios'
 
 export default function Content(props:{
@@ -14,6 +13,13 @@ export default function Content(props:{
     contentChange:string 
 })
 {
+
+    const addDepWorker = async(depWorker:INdepWork) => {
+        await axios.post('/DepWorker', depWorker);
+        const resEmployees = await axios.get('/DepWorker');
+        const depWor:IdepWork[] = resEmployees.data;
+        props.setDepWorkers(depWor);
+    }
 
     const deleteDepWorker = async (Id:number) => {
         console.log('usuwanie', Id);
@@ -32,6 +38,7 @@ export default function Content(props:{
                     setDepWorkers={props.setDepWorkers}
                     dwOnDelete={(Id:number) => deleteDepWorker(Id)}
                     setEmployees={props.setEmployees}
+                    addDepWorker={addDepWorker}
                     departments={props.departments}
                 ></Employees>
             </>)
@@ -41,6 +48,7 @@ export default function Content(props:{
                     depWorkers={props.depWorkers}
                     dwOnDelete={(Id:number) => deleteDepWorker(Id)}
                     setDepartments={props.setDepartments}
+                    // addDepWorker={addDepWorker}
                     employees={props.employees}
                 ></Departments>)
         default:

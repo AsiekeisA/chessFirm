@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import Modal from 'react-modal';
 import Employee from "./Employee/Employee";
 import styles from './Employees.module.css';
-import {Iworker, IdepWork, Idepart} from "../../../Models/Model"
+import {Iworker, IdepWork, Idepart, INdepWork} from "../../../Models/Model"
 import { useEffect, useState } from "react";
 import EditEmployee from "./EditEmployee/EditEmployee";
 import axios from "../../../axios";
@@ -13,6 +13,7 @@ function Employees(props: {
     depWorkers:IdepWork[];
     departments:Idepart[];
     dwOnDelete(Id:number):any
+    addDepWorker(depWorker:INdepWork):any
     setDepWorkers: React.Dispatch<React.SetStateAction<IdepWork[]>>;
     setEmployees: React.Dispatch<React.SetStateAction<Iworker[]>>}) {
     const [editEmployeeTemp, setEditEmployee] = useState<Iworker>({
@@ -97,7 +98,7 @@ function Employees(props: {
                     employee={employee}
                     departments={props.departments}
                     depWorkers={props.depWorkers}
-                    // dwOnDelete={(Id:number) => {deleteDepWorker(Id)}}
+                    addDepWorker={props.addDepWorker}
                     dwOnDelete={(Id:number) => props.dwOnDelete(Id)}
                     onEdit={(employee) => editEmpHandler(employee)}
                     onDelete={(Id:number) => deleteEmployee(Id)}       

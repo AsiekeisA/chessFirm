@@ -22,13 +22,16 @@ export interface IworkerList {
     EmpLastname: string,
     }
 
-export interface IdepartList {
-    Id: number,
-    DepName: string
-}
-
 export interface IdepWork {
     Id: number,
     DepId: number,
+    EmpId: number
+}
+export interface INdepWork {
+    DepId: number,
+    EmpId: number
+}
+export interface IN2depWork {
+    DepName: string,
     EmpId: number
 }
