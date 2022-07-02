@@ -1,9 +1,7 @@
-import { Row, Col } from "react-bootstrap";
 import styles from "./Employee.module.css"
 import {Iworker, IdepWork,Idepart, INdepWork} from "../../../../Models/Model"
-import axios from '../../../../axios'
 import ListDepartments from "./ListDepartments/ListDepartments";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AddDepartment from "./ListDepartments/AddDepartment/AddDepartment";
 
 function Employee(props:{
@@ -22,7 +20,7 @@ function Employee(props:{
     const selectDepWorker = props.depWorkers.filter(dw => dw.EmpId === props.employee.Id)
     if (selectDepWorker.length>0){
         for(var i=0; i<selectDepWorker.length; i++){
-            newDepList = newDepList.filter(dw=>dw.Id!=selectDepWorker[i].DepId)
+            newDepList = newDepList.filter(dw=>dw.Id!==selectDepWorker[i].DepId)
         }
     }
 
@@ -30,6 +28,15 @@ function Employee(props:{
         showList?
         setBtnName("rozwiń"):setBtnName("zwiń")
         setShowList(!showList)
+    }
+
+    const deleteEmp = (id:number) => {
+        if (selectDepWorker.length>0){
+            for (var i=0; i<selectDepWorker.length; i++){
+                props.dwOnDelete(selectDepWorker[i].Id)
+            }
+        }
+        props.onDelete(id)
     }
 
     const editHandler = () => {
@@ -42,12 +49,13 @@ function Employee(props:{
     }
 
     return (
-        <><div className={`${styles.emp}`}>
-            <div>{props.employee.EmpFirstname} {props.employee.EmpLastname}</div>
+        <>
+        <div className={`${styles.emp} flexbox-cointainer`}>
+            <div className="col">{props.employee.EmpFirstname} {props.employee.EmpLastname}</div>
             <div className="col">{props.employee.EmpPhone}</div>
-            <button onClick={()=>{setList()}}>{btnName}</button>
-            <button onClick={editHandler}>edycja</button>
-            <button onClick={() => {props.onDelete(props.employee.Id)}}>usuń</button>
+            <div className="col"><button onClick={()=>{setList()}}>{btnName}</button></div>
+            <div className="col"><button onClick={editHandler}>edycja</button></div>
+            <div className="col"><button onClick={() => {deleteEmp(props.employee.Id)}}>usuń</button></div>
         </div>
          {selectDepWorker.map((depWork: IdepWork) => (
             <ListDepartments

@@ -46,27 +46,27 @@ function NewEmployee(
 
     return(
             <div>
-            <label>Imię:</label>
+            <label>Imię</label><br/>
             <input 
                className = "form-control"
                type="text" 
                 value={newEmployee.EmpFirstname} 
                 onChange={changeFirstNameHandler} />
-            
-            <label>Nazwisko:</label>
+            <br/><br/>
+            <label>Nazwisko</label><br/>
             <input 
             className = "form-control"
             type="text" 
              value={newEmployee.EmpLastname} 
              onChange={changeLastNameHandler} />
-        
-            <label>Telefon:</label>
+            <br/><br/>
+            <label>Telefon</label><br/>
             <input 
                className = "form-control"
                type="text" 
                 value={newEmployee.EmpPhone} 
                 onChange={changePhoneHandler} />
-    
+            <br/>
             <button onClick={() => addEmployee()}>Zapisz</button>
         </div>
         )

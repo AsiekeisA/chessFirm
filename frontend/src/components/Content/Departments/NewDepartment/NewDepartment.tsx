@@ -30,13 +30,13 @@ function NewDepartment(
 
     return(
             <div>
-            <label>Nazwa:</label>
+            <label>Nazwa</label><br/>
             <input 
                className = "form-control"
                type="text" 
                 value={newDepartment.DepName} 
                 onChange={changeNameHandler} />
-    
+            <br/>
             <button onClick={() => addDepartment()}>Zapisz</button>
         </div>
         )

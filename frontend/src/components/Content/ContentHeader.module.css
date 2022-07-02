@@ -1,0 +1,16 @@
+.head {
+    align-items: center;
+    justify-content:space-between;
+    display:flex;
+    font-size: 15px;
+    margin: 2px 0px 2px 0px;
+    padding: 5px 10px 5px 10px;
+}
+.contain {
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(150, 150, 150);
+    font-size: 15px;
+    display: flexbox;
+    padding: 5px 5px 5px 5px;
+}
